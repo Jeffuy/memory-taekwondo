@@ -16,7 +16,7 @@ function App() {
     const [turns, setTurns] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
     const [choiceTwo, setChoiceTwo] = useState(null);
-	const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     // shufle cards
     const shuffleCards = () => {
@@ -26,22 +26,23 @@ function App() {
 
         setCards(shuffledCards);
         setTurns(0);
-		setChoiceOne(null);
-		setChoiceTwo(null);
+        setChoiceOne(null);
+        setChoiceTwo(null);
     };
 
     // handle click on card
     const handleChoice = (card) => {
-        choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+        choiceOne && choiceOne !== card
+            ? setChoiceTwo(card)
+            : setChoiceOne(card);
+        // choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
     };
 
     // compoare 2 selected cards
 
     useEffect(() => {
-
-		
         if (choiceOne && choiceTwo) {
-			setDisabled(true)
+            setDisabled(true);
             if (choiceOne.src === choiceTwo.src) {
                 setCards((prevCards) => {
                     return prevCards.map((card) => {
@@ -59,11 +60,11 @@ function App() {
         }
     }, [choiceOne, choiceTwo]);
 
-	//start a new game automatically
+    //start a new game automatically
 
-	useEffect(() => {
-		shuffleCards();
-	}, []);
+    useEffect(() => {
+        shuffleCards();
+    }, []);
 
     // rest choices and increase turn
 
@@ -71,7 +72,7 @@ function App() {
         setChoiceOne(null);
         setChoiceTwo(null);
         setTurns((prevTurns) => prevTurns + 1);
-		setDisabled(false);
+        setDisabled(false);
     };
 
     return (
@@ -90,11 +91,11 @@ function App() {
                             card === choiceTwo ||
                             card.matched
                         }
-						disabled={disabled}
+                        disabled={disabled}
                     />
                 ))}
             </div>
-			<h2>Turns: {turns}</h2>
+            <h2>Turns: {turns}</h2>
         </div>
     );
 }
